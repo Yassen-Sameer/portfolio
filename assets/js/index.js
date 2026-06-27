@@ -320,8 +320,6 @@ gallaryBtns[4].addEventListener("click", function () {
   switchGallaryTabs(4, 8, 8);
 });
 
-// ^ testimonials carousel
-
 const testimonialsCarousel = document.querySelector("#testimonials-carousel");
 const nextTestimonial = document.querySelector("#next-testimonial");
 const prevTestimonial = document.querySelector("#prev-testimonial");
@@ -330,34 +328,40 @@ const carouselIndicatorContainer = document.querySelectorAll(
 );
 
 let currentSlide = 0;
-let motionRange = 33.33;
-let translateValue;
+
+function getMotionRange() {
+  if (window.innerWidth >= 1024) return 33.33;
+  if (window.innerWidth >= 640) return 50;
+  return 100;
+}
+
+function getMaxSlide() {
+  if (window.innerWidth >= 1024) return 3;
+  if (window.innerWidth >= 640) return 4;
+  return 5;
+}
 
 nextTestimonial.addEventListener("click", function () {
-  if (currentSlide === 3) {
+  const maxSlide = getMaxSlide();
+  if (currentSlide === maxSlide) {
     currentSlide = 0;
   } else {
     currentSlide++;
   }
 
-  translateValue = motionRange * currentSlide;
-
-  testimonialsCarousel.style.transform = `translateX(${translateValue}%)`;
-
+  testimonialsCarousel.style.transform = `translateX(${getMotionRange() * currentSlide}%)`;
   handelCarouselIndicator(currentSlide);
 });
 
 prevTestimonial.addEventListener("click", function () {
+  const maxSlide = getMaxSlide();
   if (currentSlide === 0) {
-    currentSlide = 3;
+    currentSlide = maxSlide;
   } else {
     currentSlide--;
   }
 
-  translateValue = motionRange * currentSlide;
-
-  testimonialsCarousel.style.transform = `translateX(${translateValue}%)`;
-
+  testimonialsCarousel.style.transform = `translateX(${getMotionRange() * currentSlide}%)`;
   handelCarouselIndicator(currentSlide);
 });
 
@@ -369,11 +373,15 @@ for (let i = 0; i < carouselIndicatorContainer.length; i++) {
 
 function selectCaruselPage(index) {
   currentSlide = index;
-
-  testimonialsCarousel.style.transform = `translateX(calc(33.33% * ${index}))`;
-
+  testimonialsCarousel.style.transform = `translateX(calc(${getMotionRange()}% * ${index}))`;
   handelCarouselIndicator(index);
 }
+
+window.addEventListener("resize", () => {
+  currentSlide = 0;
+  testimonialsCarousel.style.transform = `translateX(0%)`;
+  handelCarouselIndicator(0);
+});
 
 function handelCarouselIndicator(index) {
   for (let i = 0; i < carouselIndicatorContainer.length; i++) {
@@ -384,7 +392,6 @@ function handelCarouselIndicator(index) {
   carouselIndicatorContainer[index].classList.add("bg-linear-to-br", "from-primary", "to-secondary");
   carouselIndicatorContainer[index].classList.remove("dark:bg-slate-600");
 }
-
 // ^form
 
 const form = document.querySelector("#form");
