@@ -4,7 +4,7 @@ A clean, modern, and responsive personal portfolio website built to showcase my 
 
 ## 🚀 Live Demo
 
-[View Live Project](https://yassensamer258-commits.github.io/portfolio-master/) *(Replace with your actual hosted link)*
+[View Live Project](https://yassen-sameer.github.io/portfolio/) *(Replace with your actual hosted link)*
 
 ---
 
